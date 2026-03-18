@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  wiki:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - wiki_storage:/storage
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/up"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  wiki_storage:
